@@ -13,7 +13,10 @@ const memoryStore = {
                 greeting_response: null,
                 name_response: null,
                 age_response: null,
-                position_response: null
+                position_response: null,
+                education_level: null,
+                languages_spoken: null,
+                contact_information: null
             }
         },
         experience: {
@@ -23,7 +26,12 @@ const memoryStore = {
                 previous_roles: null,
                 duration: null,
                 responsibilities: null,
-                expectations: null
+                expectations: null,
+                machine_operation: null,
+                quality_control_exp: null,
+                inventory_management: null,
+                certifications: null,
+                reason_for_leaving: null
             },
             follow_up_needed: false
         },
@@ -33,7 +41,12 @@ const memoryStore = {
                 safety_familiar: null,
                 safety_examples: null,
                 previous_training: null,
-                willing_to_learn: null
+                willing_to_learn: null,
+                ppe_knowledge: null,
+                emergency_procedures: null,
+                incident_reporting: null,
+                chemical_handling: null,
+                machine_safety: null
             },
             requires_training: false
         },
@@ -44,7 +57,11 @@ const memoryStore = {
                 preferred_shifts: null,
                 overtime_availability: null,
                 schedule_constraints: null,
-                transportation: null
+                transportation: null,
+                notice_period: null,
+                weekend_availability: null,
+                holiday_work: null,
+                start_date: null
             },
             shift_flexibility: null
         },
@@ -55,7 +72,11 @@ const memoryStore = {
                 conflict_handling: null,
                 communication_style: null,
                 leadership_experience: null,
-                collaboration_preference: null
+                collaboration_preference: null,
+                cultural_sensitivity: null,
+                language_barriers: null,
+                problem_solving: null,
+                stress_management: null
             }
         }
     },
@@ -190,26 +211,61 @@ const questionMap = {
         greeting: "မင်္ဂလာပါ။ ကျွန်တော်/ကျွန်မက HR ဖြစ်ပါတယ်။",
         name: "အမည်ဘယ်လိုခေါ်ပါသလဲ?",
         age: "အသက်ဘယ်နှစ်နှစ်ဖြစ်ပြီလဲ?",
-        position: "ဘယ်ရာထူးအတွက် လျှောက်ထားတာပါလဲ?"
+        position: "ဘယ်ရာထူးအတွက် လျှောက်ထားတာပါလဲ?",
+        education: "ပညာအရည်အချင်းကို ပြောပြပေးပါ။",
+        languages: "ဘာသာစကားဘယ်နှစ်မျိုး ပြောဆိုနိုင်ပါသလဲ?",
+        contact: "ဆက်သွယ်ရန်လိပ်စာနဲ့ ဖုန်းနံပါတ်ကို ပြောပြပေးပါ။"
     },
     experience: {
         has_experience: "ယခင်က စက်ရုံခွဲ၊ ထုတ်လုပ်ရေးတစ်ခုခုမှာ အတွေ့အကြုံရှိခဲ့ဘူးလား?",
         previous_roles: "ဘာလွှာ၊ ဘာလုပ်ဆောင်ခဲ့တာလဲ?",
-        expectations: "ယခုသစ်အသစ်စလုပ်မယ့်အလုပ်မှာ ဘယ်လိုတာဝန်တွေဆောင်ရွက်ဖို့ မျှော်လင့်ထားပါသလဲ?"
+        machine_exp: "စက်ယန္တရားတွေနဲ့ အလုပ်လုပ်ဖူးပါသလား?",
+        quality_control: "အရည်အသွေးထိန်းချုပ်မှုအတွေ့အကြုံ ရှိပါသလား?",
+        inventory: "ပစ္စည်းထိန်းသိမ်းခြင်းနဲ့ စာရင်းကိုင်တာဝန်တွေ လုပ်ဖူးပါသလား?",
+        certifications: "သက်ဆိုင်ရာ အသိအမှတ်ပြုလက်မှတ်တွေ ရှိပါသလား?",
+        leaving_reason: "ယခင်အလုပ်ကနေ ဘာကြောင့်ထွက်ခဲ့တာလဲ?"
     },
     safety_knowledge: {
         safety_familiar: "စက်ရုံခွင်မှာ လုံခြုံရေးစည်းကမ်းတွေကို ဘယ်လောက်ထိသဘောပေါက်နေတာလဲ?",
-        safety_examples: "ဘယ်လို safety procedures တွေလုပ်ခဲ့ဖူးလဲ?"
+        safety_examples: "ဘယ်လို safety procedures တွေလုပ်ခဲ့ဖူးလဲ?",
+        ppe: "PPE (Personal Protective Equipment) အကြောင်း သိသလောက်ပြောပြပါ။",
+        emergency: "အရေးပေါ်အခြေအနေတွေမှာ ဘယ်လိုဆောင်ရွက်ရမလဲ?",
+        chemicals: "ဓာတုပစ္စည်းတွေကို ဘယ်လိုကိုင်တွယ်ရမလဲ သိပါသလား?"
     },
     availability: {
         shift_work: "အလုပ်ချိန်ဆိုတာ တစ်ခါတစ်လေညှိုနှိုင်းလုပ်ရတတ်ပါတယ်။ ညပိုင်းမှုန့်လုပ်နိုင်မလား?",
-        schedule_management: "အချိန်ဇယားကွပ်ကွင်းမဲ့တဲ့အခါမှာ ဘယ်လိုစီစဉ်ထားမလဲ?"
+        schedule_management: "အချိန်ဇယားကွပ်ကွင်းမဲ့တဲ့အခါမှာ ဘယ်လိုစီစဉ်ထားမလဲ?",
+        overtime: "အချိန်ပိုဆင်းနိုင်ပါသလား?",
+        transport: "အလုပ်ကို ဘယ်လိုလာမလဲ? ကိုယ်ပိုင်ယာဉ်ရှိပါသလား?",
+        start_date: "ဘယ်တော့စလုပ်နိုင်မလဲ?"
     },
     teamwork: {
         collaboration: "အဖွဲ့လိုက်အလုပ်လုပ်ရာမှာ သင့်အနေနဲ့ အဆင်ပြေတာလား?",
-        conflict_handling: "အဖွဲ့တွင်းအခက်အခဲတွေတွေ့သွားတဲ့အခါမှာ ဘယ်လိုဖြေရှင်းတတ်သလဲ?"
+        conflict_handling: "အဖွဲ့တွင်းအခက်အခဲတွေတွေ့သွားတဲ့အခါမှာ ဘယ်လိုဖြေရှင်းတတ်သလဲ?",
+        cultural: "မတူညီတဲ့ယဉ်ကျေးမှုနဲ့ ဘာသာစကားပြောတဲ့သူတွေနဲ့ အလုပ်လုပ်ဖူးပါသလား?",
+        stress: "အလုပ်ပိစီးမှုများတဲ့အခါ ဘယ်လိုကိုင်တွယ်ဖြေရှင်းပါသလဲ?",
+        leadership: "ခေါင်းဆောင်မှုအတွေ့အကြုံ ရှိပါသလား?"
     }
 };
+
+// Add function to check response completeness
+function checkSectionCompleteness(section) {
+    const responses = memoryStore.interview_responses[section].responses;
+    return Object.values(responses).every(response => response !== null);
+}
+
+// Add function to get next unanswered question
+function getNextQuestion(section) {
+    const responses = memoryStore.interview_responses[section].responses;
+    const questions = questionMap[section];
+    
+    for (const [key, question] of Object.entries(questions)) {
+        if (responses[key] === null) {
+            return { key, question };
+        }
+    }
+    return null;
+}
 
 // Export necessary functions and configurations
 export {
@@ -219,5 +275,7 @@ export {
     instructions,
     recordResponse,
     markSectionComplete,
-    questionMap
+    questionMap,
+    checkSectionCompleteness,
+    getNextQuestion
 };
