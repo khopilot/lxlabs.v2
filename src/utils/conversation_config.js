@@ -6,18 +6,27 @@ const memoryStore = {
         position: null,
         interview_date: null
     },
+    interview_history: {
+        current_section: null,
+        current_question: null,
+        conversation_log: [],
+        timestamp: null
+    },
     interview_responses: {
         basic_info: {
             completed: false,
             responses: {
                 greeting_response: null,
+                comfort_level_response: null,
                 name_response: null,
                 age_response: null,
                 position_response: null,
                 education_level: null,
                 languages_spoken: null,
-                contact_information: null
-            }
+                contact_information: null,
+                initial_impression: null
+            },
+            timestamp: null
         },
         experience: {
             completed: false,
@@ -31,9 +40,12 @@ const memoryStore = {
                 quality_control_exp: null,
                 inventory_management: null,
                 certifications: null,
-                reason_for_leaving: null
+                reason_for_leaving: null,
+                key_achievements: null
             },
-            follow_up_needed: false
+            follow_up_needed: false,
+            follow_up_points: [],
+            timestamp: null
         },
         safety_knowledge: {
             completed: false,
@@ -192,6 +204,98 @@ function getInitialGreeting() {
     return `${greeting}။ ကျွန်တော်/ကျွန်မက HR department ကနေ အင်တာဗျူးမေးမြန်းပေးမယ့်သူ ဖြစ်ပါတယ်။`;
 }
 
+// Enhanced memory management functions
+function recordInteractionInHistory(question, answer, section) {
+    const timestamp = new Date().toISOString();
+    const interaction = {
+        timestamp,
+        section,
+        question,
+        answer,
+        question_key: memoryStore.interview_history.current_question
+    };
+    
+    memoryStore.interview_history.conversation_log.push(interaction);
+    return interaction;
+}
+
+function recordResponse(section, questionKey, response) {
+    // Record in section responses
+    set_memory({
+        key: `interview_responses.${section}.responses.${questionKey}`,
+        value: response
+    });
+
+    // Record timestamp
+    set_memory({
+        key: `interview_responses.${section}.timestamp`,
+        value: new Date().toISOString()
+    });
+
+    // Record in history
+    recordInteractionInHistory(
+        questionMap[section][questionKey],
+        response,
+        section
+    );
+}
+
+function updateInterviewProgress(section, questionKey) {
+    set_memory({
+        key: 'interview_history.current_section',
+        value: section
+    });
+    set_memory({
+        key: 'interview_history.current_question',
+        value: questionKey
+    });
+}
+
+function getInterviewHistory() {
+    return memoryStore.interview_history.conversation_log;
+}
+
+function getLastResponse(section, questionKey) {
+    return get_memory({
+        key: `interview_responses.${section}.responses.${questionKey}`
+    });
+}
+
+function getSectionSummary(section) {
+    const responses = get_memory({
+        key: `interview_responses.${section}.responses`
+    });
+    const timestamp = get_memory({
+        key: `interview_responses.${section}.timestamp`
+    });
+    
+    return {
+        responses,
+        timestamp,
+        completed: get_memory({
+            key: `interview_responses.${section}.completed`
+        })
+    };
+}
+
+// Add function to check for follow-up questions based on responses
+function checkForFollowUp(section, response) {
+    const followUpNeeded = response.length < 10 || response.includes('?');
+    if (followUpNeeded) {
+        set_memory({
+            key: `interview_responses.${section}.follow_up_needed`,
+            value: true
+        });
+        set_memory({
+            key: `interview_responses.${section}.follow_up_points`,
+            value: [...get_memory({
+                key: `interview_responses.${section}.follow_up_points`
+            }) || [], `Need clarification on ${memoryStore.interview_history.current_question}`]
+        });
+    }
+    return followUpNeeded;
+}
+
 // Single export statement for all functions and constants
 export {
     set_memory,
@@ -200,5 +304,11 @@ export {
     questionMap,
     checkSectionCompleteness,
     getNextQuestion,
-    getInitialGreeting
+    getInitialGreeting,
+    recordResponse,
+    getInterviewHistory,
+    getLastResponse,
+    getSectionSummary,
+    checkForFollowUp,
+    updateInterviewProgress
 };
