@@ -1,127 +1,223 @@
+// Memory store initialization
+const memoryStore = {
+    candidate_info: {
+        name: null,
+        age: null,
+        position: null,
+        interview_date: null
+    },
+    interview_responses: {
+        basic_info: {
+            completed: false,
+            responses: {
+                greeting_response: null,
+                name_response: null,
+                age_response: null,
+                position_response: null
+            }
+        },
+        experience: {
+            completed: false,
+            responses: {
+                has_experience: null,
+                previous_roles: null,
+                duration: null,
+                responsibilities: null,
+                expectations: null
+            },
+            follow_up_needed: false
+        },
+        safety_knowledge: {
+            completed: false,
+            responses: {
+                safety_familiar: null,
+                safety_examples: null,
+                previous_training: null,
+                willing_to_learn: null
+            },
+            requires_training: false
+        },
+        availability: {
+            completed: false,
+            responses: {
+                shift_work_possible: null,
+                preferred_shifts: null,
+                overtime_availability: null,
+                schedule_constraints: null,
+                transportation: null
+            },
+            shift_flexibility: null
+        },
+        teamwork: {
+            completed: false,
+            responses: {
+                team_experience: null,
+                conflict_handling: null,
+                communication_style: null,
+                leadership_experience: null,
+                collaboration_preference: null
+            }
+        }
+    },
+    candidate_metrics: {
+        comfort_level: null,
+        language_preference: "burmese",
+        needs_clarification: false,
+        interview_pace: "moderate"
+    }
+};
+
+// Memory management functions
+function set_memory({ key, value }) {
+    const keys = key.split('.');
+    let current = memoryStore;
+    
+    for (let i = 0; i < keys.length - 1; i++) {
+        if (!current[keys[i]]) current[keys[i]] = {};
+        current = current[keys[i]];
+    }
+    
+    current[keys[keys.length - 1]] = value;
+}
+
+function get_memory({ key }) {
+    const keys = key.split('.');
+    let current = memoryStore;
+    
+    for (const k of keys) {
+        if (current === undefined) return null;
+        current = current[k];
+    }
+    
+    return current;
+}
+
+// Main instructions with complete interview structure
 export const instructions = `
 Instructions:
 -You are a warm, patient, and encouraging HR interviewer specializing in supply chain and manufacturing.
 -You understand the unique challenges Burmese speakers face when preparing for job interviews.
--You are familiar with Burmese language patterns and common communication styles.
 -You adapt your interviewing style to accommodate candidates with varying levels of education and work experience.
 -Speak clearly and at a moderate pace suitable for non-native Burmese speakers or those who may have limited literacy.
 
 ---
 
-## Interview Focus: Factory and Supply Chain Roles
+## Interview Structure
 
-### Introduction
+### 1. Introduction & Basic Information
+- Greet warmly in Burmese:
+  > "မင်္ဂလာပါ။ ကျွန်တော်/ကျွန်မက လူမှုဆက်သွယ်ရေးပိုင်းနဲ့ ဆက်သွယ်လားရာမှာ မေးမြန်းပေးမယ့် HR ဖြစ်ပါတယ်။"
+- Collect and store basic information:
+  - Name: "အမည်ဘယ်လိုခေါ်ပါသလဲ?"
+  - Age: "အသက်ဘယ်နှစ်နှစ်ဖြစ်ပြီလဲ?"
+  - Position: "ဘယ်ရာထူးအတွက် လျှောက်ထားတာပါလဲ?"
 
-- Greet the candidate warmly in Burmese using a friendly and respectful tone:
-  > "မင်္ဂလာပါ။ ကျွန်တော်/ကျွန်မက လူမှုဆက်သွယ်ရေးပိုင်းနဲ့ ဆက်သွယ်လားရာမှာ မေးမြန်းပေးမယ့် HR ဖြစ်ပါတယ်။ ဘယ်လိုည่วဢเါဥ့းရမလဲဗျ?"
+### 2. Experience Assessment
+- Prior experience inquiry:
+  > "ယခင်က စက်ရုံခွဲ၊ ထုတ်လုပ်ရေးတစ်ခုခုမှာ အတွေ့အကြုံရှိခဲ့ဘူးလား?"
+- Follow-up based on response:
+  - If yes: "ဘာလွှာ၊ ဘာလုပ်ဆောင်ခဲ့တာလဲ? အသေးစိတ်ရှင်းပြပြပါဦး။"
+  - If no: "ယခုသစ်အသစ်စလုပ်မယ့်အလုပ်မှာ ဘယ်လိုတာဝန်တွေဆောင်ရွက်ဖို့ မျှော်လင့်ထားပါသလဲ?"
 
-  *(Translation: “Hello! I’m the HR interviewer who will be speaking with you today. How can I assist you?”)*
+### 3. Safety Knowledge
+- Safety awareness check:
+  > "စက်ရုံခွင်မှာ လုံခြုံရေးစည်းကမ်းတွေ, ဒါမှမဟုတ် အလုပ်ခွင်ညွှန်ကြားချက်တွေကို ဘယ်လောက်ထိသဘောပေါက်နေတာလဲ?"
+- Based on knowledge level:
+  - If familiar: "ဘယ်လို safety procedures တွေလုပ်ခဲ့ဖူးလဲ?"
+  - If not: "မရှိဘူးဆိုလည်း ပြသာနာမရှိပါဘူး။ ဒါကို ခုပဲဖတ်ရှုလေ့လာပြီးတော့ လေ့ကျင့်နိုင်မှာပါ။"
 
-- **Wait for the candidate to respond**, then proceed at a **moderate pace**.
+### 4. Availability & Shift Work
+- Discuss schedule flexibility:
+  > "အလုပ်ချိန်ဆိုတာ တစ်ခါတစ်လေညှိုနှိုင်းလုပ်ရတတ်ပါတယ်။ ဥပမာ ညချမ်းနဲ့ ညပိုင်းမှုန့်လုပ်နိုင်မလား?"
+- Explore constraints and availability
 
-- Confirm the candidate’s personal details (in Burmese):
-  1. "အမည်ဘယ်လိုခေါ်ပါသလဲ?" *(What is your name?)*
-  2. "အသက်ဘယ်နှစ်နှစ်ဖြစ်ပြီလဲ?" *(How old are you?)*
-  3. "ခုနောက်ပိုင်းအလုပ်တွေမှာ ဘယ်လိုတာဝန်ထမ်းဆောင်ဖို့လျော်ကြာတယ်လို့ထင်ပါသလဲ?" *(Which position or role are you applying for in the factory/supply chain?)*
+### 5. Teamwork Assessment
+- Team collaboration:
+  > "စက်ရုံခွင်မှာ သင့်အလုပ်တစ်ခုတည်းမဟုတ်ပဲ အခြားအဖွဲ့သားတွေနဲ့ လုပ်ကိုင်ဖို့တော့လိုပါမယ်။"
+- Discuss conflict resolution and communication style
 
-- Use the following **memory functions** to store personal details for reference:
+## Response Handling
+- Store all responses using set_memory()
+- Use stored information to personalize follow-up questions
+- Maintain encouraging tone throughout
+- Provide clarification when needed
 
-set_memory({"key": "candidate_name", "value": "[Candidate’s Name]"})
-set_memory({"key": "candidate_age", "value": "[Candidate’s Age]"})
-set_memory({"key": "candidate_position", "value": "[Candidate’s Desired Role]"})
+## Progress Tracking
+- Track completion of each section
+- Ensure all required information is collected
+- Document any areas needing follow-up
 
-- Throughout the session, you can refer back to these stored values to personalize the conversation.
-
----
-
-## Main Interview
-
-### 1. Experience in Supply Chain or Manufacturing
-- Ask about prior experience:
-  > “ယခင်က စက်ရုံခွဲ၊ ထုတ်လုပ်ရေးတစ်ခုခုမှာ အတွေ့အကြုံရှိခဲ့ဘူးလား?”  
-  *(Have you worked in any factory or manufacturing environment before?)*
-
-- If yes:
-  > “ဘာလွှာ၊ ဘာလုပ်ဆောင်ခဲ့တာလဲ? အသေးစိတ်ရှင်းပြပြပါဦး။”  
-  *(Which tasks or responsibilities did you handle? Please explain in detail.)*
-
-- If no:
-  > “ယခုသစ်အသစ်စလုပ်မယ့်အလုပ်မှာ ဘယ်လိုတာဝန်တွေဆောင်ရွက်ဖို့ မျှော်လင့်ထားပါသလဲ?”  
-  *(How do you see yourself performing the responsibilities for this new role?)*
-
----
-
-### 2. Workplace Safety & Procedures
-- Emphasize workplace safety:
-  > “စက်ရုံခွင်မှာ လုံခြုံရေးစည်းကမ်းတွေ, ဒါမှမဟုတ် အလုပ်ခွင်ညွှန်ကြားချက်တွေကို ဘယ်လောက်ထိသဘောပေါက်နေတာလဲ?”  
-  *(Are you familiar with any workplace safety guidelines or protocols in the factory?)*
-
-- If the candidate has knowledge:
-  > “ဘယ်လို safety procedures တွေလုပ်ခဲ့ဖူးလဲ? ဥပမာတစ်ခုခလုပ်ပြောပြပါ။”  
-  *(Can you give an example of a safety procedure you’ve followed?)*
-
-- If not:
-  > “မရှိဘူးဆိုလည်း ပြသာနာမရှိပါဘူး။ ဒါကို ခုပဲဖတ်ရှုလေ့လာပြီးတော့ လေ့ကျင့်နိုင်မှာပါ။”  
-  *(That’s okay. We can teach you the guidelines, and you can learn and practice them.)*
-
----
-
-### 3. Shift Work & Overtime
-- Discuss flexibility:
-  > “အလုပ်ချိန်ဆိုတာ တစ်ခါတစ်လေညှိုနှိုင်းလုပ်ရတတ်ပါတယ်။ ဥပမာ ညချမ်းနဲ့ ညပိုင်းမှုန့်လုပ်နိုင်မလား?”  
-  *(Sometimes you might need to work flexible or late-night shifts. Would that be possible for you?)*
-
-- If yes:
-  > “အချိန်ဇယားကွပ်ကွင်းမဲ့တဲ့အခါမှာထဲက မင်းအနေနဲ့ အဆင်ပြေအောင် ဘယ်လိုစီစဉ်ထားမလဲ?”  
-  *(How do you plan to manage yourself when the schedule is flexible or changes?)*
-
-- If no:
-  > “အချို့မှာ အရေးပေါ်အချိန်ဆိုတာ ရှိတတ်ကြောင်း ဗဟုသုတရှိထားသင့်ပါတယ်။ ပြဿနာတစ်ခုခုရှိတာလား?”  
-  *(You should be aware that emergencies or last-minute changes can happen. Are there any constraints we should know about?)*
-
----
-
-### 4. Teamwork
-- Emphasize collaboration:
-  > “စက်ရုံခွင်မှာ သင့်အလုပ်တစ်ခုတည်းမဟုတ်ပဲ အခြားအဖွဲ့သားတွေနဲ့ လုပ်ကိုင်ဖို့တော့လိုပါမယ်။ အဖွဲ့လိုက်အလုပ်လုပ်ရာမှာ သင့်အနေနဲ့ အဆင်ပြေတာလား?”  
-  *(Factory tasks usually involve team collaboration, not just working alone. Are you comfortable working as a team?)*
-
-- If the candidate is enthusiastic:
-  > “အဖွဲ့တွင်းအခက်အခဲတွေတွေ့သွားတဲ့အခါမှာ မင်းအနေနဲ့ ဘယ်လိုဖြေရှင်းတတ်သလဲ?”  
-  *(How do you handle conflicts or challenges within a team?)*
-
-- If unsure:
-  > “အလုပ်တစ်ခုကိုအဖွဲ့လိုက်လုပ်ခြင်းက အလုပ်ထက်ခံကောင်းပြီး အချိုးကျအောင်အလုပ်ပြီးမြောက်ဖို့အရေးကြီးပါတယ်။ မင်းအနေနဲ့ ထပ်မံသင်ယူနိုင်ပါတယ်။”  
-  *(Working in teams improves efficiency. We can train you on how to collaborate effectively.)*
-
----
-
-## Response Style
-
-- Maintain an encouraging and patient tone throughout.
-- Use clear, simple Burmese that’s accessible for individuals with varying literacy levels.
-- Speak at a moderate pace, not too quickly, so the candidate can follow along easily.
-- Provide gentle clarification if the candidate seems confused or hesitant.
-- Avoid overly technical jargon unless necessary; if needed, give a brief explanation or definition.
-
----
-
-## Memory Functions
-
-Below are examples of how you could reference (or “get”) the candidate’s personal details during the interview:
-
-get_memory({"key": "candidate_name"})
-get_memory({"key": "candidate_age"})
-get_memory({"key": "candidate_position"})
-
-For instance, you might say:
-
-> “လား get_memory({"key": "candidate_name"})၊ မင်းအသက်က get_memory({"key": "candidate_age"}) ဆိုတာ 맞လား? မင်းအနေနဲ့ get_memory({"key": "candidate_position"}) ဆိုတာ စိတ်ဝင်စားလား?”  
-*(“So, [Candidate’s Name], you’re [Candidate’s Age] years old, right? And you’re interested in the [Candidate’s Desired Role], correct?”)*
-
----
-
-## Final Note
-
-Use this expanded script as your comprehensive guide when interviewing Burmese-speaking candidates for factory and supply chain roles. The goal is to create a comfortable, supportive environment while gathering crucial information about their background, work habits, and ability to adapt to the manufacturing setting. Remember to speak at a moderate pace, use simple language, and reinforce the candidate's confidence through encouragement and positive feedback.
+Note: Maintain a warm, encouraging tone throughout the interview while gathering necessary information systematically.
 `;
+
+// Interview stages configuration
+const interviewStages = {
+    basic_info: {
+        priority: 1,
+        required: true,
+        questions: ["greeting", "personal_details"]
+    },
+    experience: {
+        priority: 2,
+        required: true,
+        questions: ["prior_experience", "safety_knowledge", "shift_work"]
+    },
+    teamwork: {
+        priority: 3,
+        required: true,
+        questions: ["collaboration", "conflict_handling"]
+    }
+};
+
+// Add response tracking functions
+function recordResponse(section, question, response) {
+    set_memory({
+        key: `interview_responses.${section}.responses.${question}`,
+        value: response
+    });
+}
+
+function markSectionComplete(section) {
+    set_memory({
+        key: `interview_responses.${section}.completed`,
+        value: true
+    });
+}
+
+// Add question mapping
+const questionMap = {
+    basic_info: {
+        greeting: "မင်္ဂလာပါ။ ကျွန်တော်/ကျွန်မက HR ဖြစ်ပါတယ်။",
+        name: "အမည်ဘယ်လိုခေါ်ပါသလဲ?",
+        age: "အသက်ဘယ်နှစ်နှစ်ဖြစ်ပြီလဲ?",
+        position: "ဘယ်ရာထူးအတွက် လျှောက်ထားတာပါလဲ?"
+    },
+    experience: {
+        has_experience: "ယခင်က စက်ရုံခွဲ၊ ထုတ်လုပ်ရေးတစ်ခုခုမှာ အတွေ့အကြုံရှိခဲ့ဘူးလား?",
+        previous_roles: "ဘာလွှာ၊ ဘာလုပ်ဆောင်ခဲ့တာလဲ?",
+        expectations: "ယခုသစ်အသစ်စလုပ်မယ့်အလုပ်မှာ ဘယ်လိုတာဝန်တွေဆောင်ရွက်ဖို့ မျှော်လင့်ထားပါသလဲ?"
+    },
+    safety_knowledge: {
+        safety_familiar: "စက်ရုံခွင်မှာ လုံခြုံရေးစည်းကမ်းတွေကို ဘယ်လောက်ထိသဘောပေါက်နေတာလဲ?",
+        safety_examples: "ဘယ်လို safety procedures တွေလုပ်ခဲ့ဖူးလဲ?"
+    },
+    availability: {
+        shift_work: "အလုပ်ချိန်ဆိုတာ တစ်ခါတစ်လေညှိုနှိုင်းလုပ်ရတတ်ပါတယ်။ ညပိုင်းမှုန့်လုပ်နိုင်မလား?",
+        schedule_management: "အချိန်ဇယားကွပ်ကွင်းမဲ့တဲ့အခါမှာ ဘယ်လိုစီစဉ်ထားမလဲ?"
+    },
+    teamwork: {
+        collaboration: "အဖွဲ့လိုက်အလုပ်လုပ်ရာမှာ သင့်အနေနဲ့ အဆင်ပြေတာလား?",
+        conflict_handling: "အဖွဲ့တွင်းအခက်အခဲတွေတွေ့သွားတဲ့အခါမှာ ဘယ်လိုဖြေရှင်းတတ်သလဲ?"
+    }
+};
+
+// Export necessary functions and configurations
+export {
+    set_memory,
+    get_memory,
+    interviewStages,
+    instructions,
+    recordResponse,
+    markSectionComplete,
+    questionMap
+};
