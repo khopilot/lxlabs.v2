@@ -121,13 +121,33 @@ Instructions:
 -You adapt your interviewing style to accommodate candidates with varying levels of education and work experience.
 -Speak clearly and at a moderate pace suitable for non-native Burmese speakers or those who may have limited literacy.
 
-[... rest of your instruction template ...]
+## အင်တာဗျူးအစပိုင်း (Interview Introduction)
+
+1. ဦးစွာနှုတ်ဆက်ခြင်း (Initial Greeting):
+   > "မင်္ဂလာပါ။ ကျွန်တော်/ကျွန်မက HR department ကနေ အင်တာဗျူးမေးမြန်းပေးမယ့်သူ ဖြစ်ပါတယ်။ ဒီနေ့ အင်တာဗျူးအတွက် ကြွလာတဲ့အတွက် ကျေးဇူးတင်ပါတယ်။"
+
+2. သက်တောင့်သက်သာဖြစ်စေရန် (Making Candidate Comfortable):
+   > "စိတ်အေးအေးထားပါ။ ရိုးရိုးလေးပဲ မေးမြန်းသွားမှာပါ။ မရှင်းတာရှိရင်လည်း ပြန်မေးနိုင်ပါတယ်။"
+
+3. အင်တာဗျူးပုံစံရှင်းပြခြင်း (Explaining Interview Format):
+   > "ကျွန်တော်/ကျွန်မက သင့်ရဲ့ အတွေ့အကြုံတွေ၊ စိတ်ဝင်စားမှုတွေနဲ့ ပတ်သက်ပြီး မေးခွန်းအချို့ မေးသွားမှာပါ။"
+
+4. အချိန်ကာလရှင်းပြခြင်း (Time Expectation):
+   > "အင်တာဗျူးက မိနစ် ၃၀ လောက်ကြာမယ်။ အဆင်ပြေပါသလား?"
+
+## အခြေခံအချက်အလက်များ (Basic Information Collection)
+
+Start with:
+> "ပထမဦးဆုံးအနေနဲ့ သင့်ရဲ့အခြေခံအချက်အလက်လေးတွေ မေးပါရစေ။"
+
+Then proceed with questions from questionMap.basic_info...
 `;
 
 // Question mapping
 const questionMap = {
     basic_info: {
-        greeting: "မင်္ဂလာပါ။ ကျွန်တော်/ကျွန်မက HR ဖြစ်ပါတယ်။",
+        greeting: "မင်္ဂလာပါ။ ကျွန်တော်/ကျွန်မက HR ဖြစ်ပါတယ်။ နေကောင်းပါသလား?",
+        comfort_check: "အဆင်ပြေပါသလား? ရေလေး၊ လက်ဖက်ရည်လေး တစ်ခုခု သောက်ချင်ပါသလား?",
         name: "အမည်ဘယ်လိုခေါ်ပါသလဲ?",
         age: "အသက်ဘယ်နှစ်နှစ်ဖြစ်ပြီလဲ?",
         position: "ဘယ်ရာထူးအတွက် လျှောက်ထားတာပါလဲ?",
@@ -156,6 +176,22 @@ function getNextQuestion(section) {
     return null;
 }
 
+// Add function to handle initial greeting
+function getInitialGreeting() {
+    const timeOfDay = new Date().getHours();
+    let greeting = "";
+    
+    if (timeOfDay < 12) {
+        greeting = "မင်္ဂလာအနံက်ခင်းပါ";
+    } else if (timeOfDay < 17) {
+        greeting = "မင်္ဂလာနေ့လည်ခင်းပါ";
+    } else {
+        greeting = "မင်္ဂလာညနေခင်းပါ";
+    }
+    
+    return `${greeting}။ ကျွန်တော်/ကျွန်မက HR department ကနေ အင်တာဗျူးမေးမြန်းပေးမယ့်သူ ဖြစ်ပါတယ်။`;
+}
+
 // Single export statement for all functions and constants
 export {
     set_memory,
@@ -163,5 +199,6 @@ export {
     instructions,
     questionMap,
     checkSectionCompleteness,
-    getNextQuestion
+    getNextQuestion,
+    getInitialGreeting
 };
